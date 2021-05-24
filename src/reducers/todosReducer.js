@@ -3,11 +3,13 @@ export const todosReducer = (state, action) => {
   switch (action.type) {
     case "ADD":
       return {
-        ...state, todos: [...state.todos, action.payload]
+        ...state, todos: [...state.todos, action.payload],
+        loading: false,
       }
     case "DELETE":
       return {
-        ...state, todos: state.todos.filter((el) => el.id !== action.payload.id)
+        ...state, todos: state.todos.filter((el) => el.id !== action.payload.id),
+        loading: false,
       }
     case "TOGGLE":
       return {
@@ -20,11 +22,12 @@ export const todosReducer = (state, action) => {
             }
           }
           return el
-        })
+        }),
+        loading: false,
       }
     case "FETCH_INIT":
       return {
-        ...state, loading: true
+        ...state, loading: true,
       }
     case "FETCH_SUCCESS":
 

@@ -4,22 +4,21 @@ import { useIsMounted } from "../hooks/useIsMounted"
 const ToggleTodo = ({ todo }) => {
   const dispatch = useTodosDispatch()
   const isMounted = useIsMounted()
-  const toggleCompleteTodo = () => {
 
-    fetch(`${process.env.REACT_APP_API_URL}/todos/${todo.id}`
-      , {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...todo,
-          isCompleted: !todo.isCompleted
-        })
-      })
+  const toggleCompleteTodo = () => {
+    fetch(`${process.env.REACT_APP_API_URL}/todos/${todo.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...todo,
+        isCompleted: !todo.isCompleted,
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
-          throw new Error(`something went wrong ${response.statusText}`)
+          throw new Error(`Something went wrong: ${response.textStatus}`)
         }
         return response.json()
       })
@@ -33,7 +32,6 @@ const ToggleTodo = ({ todo }) => {
           dispatch({ type: "FETCH_FAILURE", payload: error.message })
         }
       })
-
   }
   return (
     <button

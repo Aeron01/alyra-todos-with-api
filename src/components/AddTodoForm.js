@@ -1,6 +1,7 @@
 import { useDarkMode } from "../context/DarkModeContext"
 import { useTodosDispatch } from "../context/TodosDispatchContext"
 import { useIsMounted } from "../hooks/useIsMounted"
+import { v4 as uuidv4 } from "uuid"
 
 const AddTodoForm = () => {
   const darkMode = useDarkMode()
@@ -8,10 +9,14 @@ const AddTodoForm = () => {
   const darkModeClass = darkMode ? "text-white bg-dark" : ""
   const isMounted = useIsMounted()
 
-
+  const addTodo = (text) => {
+    const newTodo = { text, isCompleted: false, id: uuidv4(), }
+    dispatch({ type: "ADD", payload: newTodo })
+  }
   const handleFormSubmit = event => {
     event.preventDefault()
     const newTodoText = event.target.elements.todo.value
+    dispatch({ type: "FETCH_INIT" })
     fetch(`${process.env.REACT_APP_API_URL}/todos`, {
       method: "POST",
       headers: {

@@ -7,5 +7,4 @@ export const useIsMounted = () => {
     return () => (isMounted.current = false)
   }, [])
   return isMounted
-
 }

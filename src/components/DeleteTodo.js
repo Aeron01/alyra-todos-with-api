@@ -5,17 +5,15 @@ const DeleteTodo = ({ todo }) => {
   const dispatch = useTodosDispatch()
   const isMounted = useIsMounted()
   const deleteTodo = () => {
-
-    fetch(`${process.env.REACT_APP_API_URL}/todos/${todo.id}`
-      , {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+    fetch(`${process.env.REACT_APP_API_URL}/todos/${todo.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => {
         if (!response.ok) {
-          throw new Error(`something went wrong ${response.statusText}`)
+          throw new Error(`Something went wrong: ${response.textStatus}`)
         }
         return response.json()
       })

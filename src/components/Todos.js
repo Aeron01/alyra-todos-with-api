@@ -8,24 +8,27 @@ import { useIsMounted } from "../hooks/useIsMounted"
 const initialState = {
   todos: [],
   loading: false,
-  error: ""
+  error: "",
 }
 
 const Todos = () => {
   const [state, dispatch] = useReducer(todosReducer, initialState)
   const { todos, loading, error } = state
   const isMounted = useIsMounted()
+  console.log(isMounted)
+
   useEffect(() => {
     dispatch({ type: "FETCH_INIT" })
     fetch(`${process.env.REACT_APP_API_URL}/todos`)
-      .then(response => {
+      .then((response) => {
         console.log(response)
         if (!response.ok) {
-          throw new Error(`Somthing went wrong ${response.statusText}`)
+          throw new Error(`Something went wrong ${response.statusText}`)
         }
         return response.json()
       })
       .then((result) => {
+        console.log(result)
         if (isMounted.current) {
           dispatch({ type: "FETCH_SUCCESS", payload: result })
         }
@@ -39,8 +42,8 @@ const Todos = () => {
 
   return (
     <main>
-      {error && <p className="alert alert-danger">{error}</p>}
       <h2 className="text-center">Ma liste de tâches ({todos.length})</h2>
+      {error && <p className="alert alert-danger">{error}</p>}
       <TodosDispatchContext.Provider value={dispatch}>
         <TodosList todos={todos} />
         <AddTodoForm />
